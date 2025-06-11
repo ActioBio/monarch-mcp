@@ -1,4 +1,3 @@
-# src/monarch_mcp/tools/histopheno.py
 from typing import Any, Dict
 import mcp.types as types
 from ..client import MonarchClient
@@ -11,19 +10,17 @@ class HistoPhenoApi:
     async def get_histopheno(self, client: MonarchClient, id: str) -> Dict[str, Any]:
         """
         Retrieves histopheno data for a given entity ID.
-        Args:
-            id (str): The CURIE of the entity to retrieve histopheno data for.
         """
         return await client.get(f"histopheno/{id}")
 
 HISTOPHENO_TOOLS = [
     types.Tool(
         name="get_histopheno",
-        description="Retrieves histopheno data for a given entity ID.",
+        description="Retrieves histophenotype data showing phenotype frequency information for a disease.",
         inputSchema={
             "type": "object",
             "properties": {
-                "id": {"type": "string", "description": "The CURIE of the entity (e.g., a disease ID)."}
+                "id": {"type": "string", "description": "The disease entity ID (e.g., MONDO:0019391)."}
             },
             "required": ["id"]
         }

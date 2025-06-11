@@ -1,11 +1,10 @@
-# src/monarch_mcp/tools/similarity.py
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 import mcp.types as types
 from ..client import MonarchClient
 
 class SimilarityApi:
     """
-    Semantic similarity calculations between entities, refactored for the v3 API.
+    Semantic similarity calculations between entities.
     """
 
     async def compare_termsets(
@@ -17,10 +16,6 @@ class SimilarityApi:
     ) -> Dict[str, Any]:
         """
         Get pairwise similarity between two sets of terms.
-        Args:
-            subjects: A list of subject CURIEs for comparison.
-            objects: A list of object CURIEs for comparison.
-            metric: The similarity metric to use.
         """
         subjects_str = ",".join(subjects)
         objects_str = ",".join(objects)
@@ -33,20 +28,19 @@ class SimilarityApi:
         termset: List[str],
         search_group: str,
         metric: str = "ancestor_information_content",
+        directionality: str = "bidirectional",
         limit: int = 10,
     ) -> Dict[str, Any]:
         """
         Search for terms in a termset that are similar to a group of entities.
-        Args:
-            termset: Comma separated list of term IDs to find matches for.
-            search_group: Group of entities to search within.
-            metric: The similarity metric to use.
-            limit: The number of results to return.
         """
         termset_str = ",".join(termset)
-        params = {"metric": metric, "limit": limit}
+        params = {
+            "metric": metric,
+            "directionality": directionality,
+            "limit": limit
+        }
         return await client.get(f"semsim/search/{termset_str}/{search_group}", params=params)
-
 
 SIMILARITY_TOOLS = [
     types.Tool(
@@ -77,13 +71,19 @@ SIMILARITY_TOOLS = [
                 "search_group": {
                     "type": "string",
                     "description": "Group of entities to search within.",
-                    "enum": ["Human Diseases", "Mouse Genes", "Rat Genes", "Zebrafish Genes", "C. Elegans Genes"]
+                    "enum": ["Human Genes", "Mouse Genes", "Rat Genes", "Zebrafish Genes", "C. Elegans Genes", "Human Diseases"]
                 },
                 "metric": {
                     "type": "string",
                     "description": "The similarity metric to use.",
                     "default": "ancestor_information_content",
                     "enum": ["ancestor_information_content", "jaccard_similarity", "phenodigm_score"]
+                },
+                "directionality": {
+                    "type": "string",
+                    "description": "Direction of similarity comparison.",
+                    "default": "bidirectional",
+                    "enum": ["bidirectional", "subject_to_object", "object_to_subject"]
                 },
                 "limit": {"type": "number", "description": "Number of similar entities to return.", "default": 10}
             },

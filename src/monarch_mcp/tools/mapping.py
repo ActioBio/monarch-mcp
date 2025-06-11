@@ -1,4 +1,3 @@
-# src/monarch_mcp/tools/mapping.py
 from typing import Any, Dict, List, Optional
 import mcp.types as types
 from ..client import MonarchClient
@@ -20,15 +19,7 @@ class MappingApi:
         offset: int = 0,
     ) -> Dict[str, Any]:
         """
-        Retrieves mappings for a given entity.
-        Args:
-            entity_id: A list of entity CURIEs to retrieve mappings for.
-            subject_id: A list of subject CURIEs to filter mappings.
-            predicate_id: A list of predicate CURIEs to filter mappings.
-            object_id: A list of object CURIEs to filter mappings.
-            mapping_justification: The justification for the mapping.
-            limit: The number of mappings to return.
-            offset: The offset for pagination.
+        Retrieves mappings for entities.
         """
         params = {
             "entity_id": entity_id,
@@ -45,14 +36,15 @@ class MappingApi:
 MAPPING_TOOLS = [
     types.Tool(
         name="get_mappings",
-        description="Retrieve mappings (e.g., skos:exactMatch, skos:closeMatch) for entities.",
+        description="Retrieve mappings (e.g., skos:exactMatch, skos:closeMatch) between entities from different namespaces.",
         inputSchema={
             "type": "object",
             "properties": {
-                "entity_id": {"type": "array", "items": {"type": "string"}, "description": "A list of entity CURIEs to retrieve mappings for."},
-                "subject_id": {"type": "array", "items": {"type": "string"}, "description": "A list of subject CURIEs to filter mappings."},
-                "predicate_id": {"type": "array", "items": {"type": "string"}, "description": "A list of predicate CURIEs to filter mappings (e.g., ['skos:exactMatch'])."},
-                "object_id": {"type": "array", "items": {"type": "string"}, "description": "A list of object CURIEs to filter mappings."},
+                "entity_id": {"type": "array", "items": {"type": "string"}, "description": "Entity CURIEs to retrieve mappings for."},
+                "subject_id": {"type": "array", "items": {"type": "string"}, "description": "Subject CURIEs to filter mappings."},
+                "predicate_id": {"type": "array", "items": {"type": "string"}, "description": "Predicate CURIEs (e.g., ['skos:exactMatch', 'skos:closeMatch', 'skos:broadMatch'])."},
+                "object_id": {"type": "array", "items": {"type": "string"}, "description": "Object CURIEs to filter mappings."},
+                "mapping_justification": {"type": "array", "items": {"type": "string"}, "description": "Mapping justifications to filter by."},
                 "limit": {"type": "number", "description": "Number of results per page.", "default": 20},
                 "offset": {"type": "number", "description": "Offset for pagination.", "default": 0}
             }
