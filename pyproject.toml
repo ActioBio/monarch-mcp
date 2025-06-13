@@ -9,21 +9,16 @@ description = "MCP server for querying Monarch Initiative API"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
-authors = [
-    {name = "Zhong Ren", email = "zhong.ren@hotmail.com"}
-]
+authors = [{name = "Zhong Ren", email = "zhong.ren@hotmail.com"}]
 dependencies = [
-    "mcp>=1.0.0",
-    "aiohttp>=3.9.0",
-    "pydantic>=2.0.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0",
-    "black>=23.0.0",
-    "ruff>=0.1.0",
+    "mcp",
+    "aiohttp",
+    "pydantic",
+    "httpx",
+    "pytest",
+    "pytest-asyncio",
+    "openai",
+    "python-dotenv",
 ]
 
 [project.scripts]
@@ -31,3 +26,6 @@ monarch-mcp = "monarch_mcp.server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

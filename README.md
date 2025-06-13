@@ -2,47 +2,49 @@
 
 A Model Context Protocol (MCP) server that exposes the Monarch Initiative API as a set of tools.
 
-## Installation
+### Quick Start
 
-```bash
-git clone https://github.com/nickzren/monarch-mcp
-cd monarch-mcp
-mamba env create -f environment.yml
-mamba activate monarch-mcp
-```
+1. **Install UV**
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+2. **Setup**
+   ```bash
+   git clone https://github.com/nickzren/monarch-mcp.git
+   cd monarch-mcp
+   uv venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   uv pip install -e .
+   ```
+
+3. **Configure Claude Desktop**
+   ```bash
+   python scripts/configure_claude.py
+   ```
+   Then restart Claude Desktop.
 
 ## Usage
 
-#### As an MCP Server
+#### Running the Server
 
 ```bash
 monarch-mcp
 ```
 
-#### Configure with Claude Desktop
+#### AI Agent Example
 
 ```bash
-python scripts/configure_claude.py
+# Create .env file with your OpenAI API key
+echo "OPENAI_API_KEY=your_key_here" > .env
+
+# Run the example agent
+python examples/react_agent.py
 ```
 
-## Example
+#### Development
 
-#### Interactive ReAct Agent
-
-The repository includes an example agent that demonstrates how to use the query library to build intelligent applications.
-
-1.  Set your API credentials: Create or update a .env file in the project root:
-    ```bash
-    echo "OPENAI_MODEL=gpt-4.1-mini" > .env
-    echo "OPENAI_API_KEY=YOUR_API_KEY" >> .env
-    ```
-
-2.  Run the agent:
-    ```bash
-    python examples/react_agent.py
-
-    --- Open Targets ReAct Agent ---
-    Ask a complex question. Type 'exit' to quit.
-
-    > Find targets for metatropic dysplasia and see if TRPV4 is one of them.
-    ```
+```bash
+# Run tests
+pytest tests/ -v
+```
