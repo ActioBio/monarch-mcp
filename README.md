@@ -2,7 +2,7 @@
 
 A Model Context Protocol (MCP) server that exposes the Monarch Initiative API as a set of tools.
 
-### Quick Start
+## Quick Start
 
 1. **Install UV**
    ```bash
